@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <section class="section">
+                <div class="columns is-multiline is-centered is-6">
+                    {% if posts %}
+                        {% for post in posts %}
+                        <div class="column is-4"> <!-- Adjust the column width as needed -->
+                            <form action="" class="box" style="margin-right: 0.2vh; margin-left: 0.2vh; display: flex; flex-direction: column; justify-content: space-between; border-radius: 1.1vh">
+                                <a href="{% url 'post_detail' author=post.author url=post.url %}">
+                                    <div class="content">                                           
+                                        {% if post.thumbnail.url %}
+                                            <img src="{{ post.thumbnail.url }}" alt="{{ post.title }} Thumbnail" style="max-height: 25vh; width: 100%; max-width: 100%; object-fit: contain; border-radius: 1vh">
+                                        {% endif %}
+                                    </div>
+                                    <div class="content" style="align-self: flex-left;">
+                                        <h2 class="subtitle is-5 has-text-grey">{{ post.created_at | date:'M d Y'}}</h2>
+                                        <h1 class="title has-text-black is-3">{{ post.title }}</h1>
+                                        <p class="has-text-dark">{{ post.intro }}</p>                                      
+                                    </div>
+                                </a>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        {% if author %}
+                            <h1 class="title has-text-black is-3">No posts found for user {{ author }}</h1>
+                        {% else %}
+                            <h1 class="title has-text-black is-3">No Posts Yet!</h1>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </section>
+            <div class="is-divider"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
